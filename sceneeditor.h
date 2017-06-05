@@ -2,16 +2,23 @@
 #define SCENEEDITOR_H
 
 #include <QObject>
-
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+#include "circuitelement.h"
 class SceneEditor : public QObject
 {
 	Q_OBJECT
 public:
 	explicit SceneEditor(QObject *parent = nullptr);
+	void install(QGraphicsScene *scene);
+	bool eventFilter(QObject *, QEvent *);
 
-signals:
+private:
+	QGraphicsItem *itemAt(const QPointF&);
 
-public slots:
+private:
+	QGraphicsScene *scene;
+	Wire *conn;
 };
 
 #endif // SCENEEDITOR_H

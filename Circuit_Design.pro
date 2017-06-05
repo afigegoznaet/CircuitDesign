@@ -26,10 +26,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     circuitelement.cpp \
-    gridscene.cpp
+    gridscene.cpp \
+    pin.cpp \
+    wire.cpp \
+    sceneeditor.cpp \
+    capacitor.cpp \
+    resistor.cpp
 
 HEADERS  += mainwindow.h \
     circuitelement.h \
-    gridscene.h
+    gridscene.h \
+    pin.h \
+    wire.h \
+    sceneeditor.h \
+    capacitor.h \
+    resistor.h
 
 FORMS    += mainwindow.ui

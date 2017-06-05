@@ -1,16 +1,27 @@
 #include "circuitelement.h"
+#include <QDebug>
 
 CircuitElement::CircuitElement(QGraphicsItem *parent):
-	QGraphicsObject(parent){
+	QGraphicsItem(parent){
 
 	setFlags(QGraphicsItem::ItemIsSelectable |
-			QGraphicsItem::ItemIsMovable |
-			QGraphicsItem::ItemSendsGeometryChanges);
+			QGraphicsItem::ItemIsMovable
+			 | QGraphicsItem::ItemSendsGeometryChanges
+			 );
+
+	addPort(false);
+	addPort(true);
 }
 
+void CircuitElement::setPos(const QPointF &pos){
+	qDebug()<<pos;
+	QPointF newPos(itemChange(ItemPositionChange, pos).toPointF());
+	//int grid = qobject_cast<GridScene*> (scene())->gridSize;
+	QGraphicsItem::setPos(newPos);
+}
 
 QRectF CircuitElement::boundingRect() const{
-	QRectF rect(0,0,100,50);
+	QRectF rect(0,0,width,height);
 	return rect;
 }
 
@@ -24,17 +35,67 @@ const QVariant &value)
 {
 	if (change == ItemPositionChange && scene()) {
 		QPointF newPos = value.toPointF();
-		if(QApplication::mouseButtons() == Qt::LeftButton &&
-				qobject_cast<GridScene*> (scene())){
-			GridScene* customScene = qobject_cast<GridScene*> (scene());
-			int gridSize = customScene->getGridSize();
-			qreal xV = round(newPos.x()/gridSize)*gridSize;
-			qreal yV = round(newPos.y()/gridSize)*gridSize;
-			return QPointF(xV, yV);
+		GridScene* customScene = qobject_cast<GridScene*> (scene());
+		int gridSize = customScene->getGridSize();
+
+		auto collisions = collidingItems();
+		if( QApplication::mouseButtons() != Qt::LeftButton && !collisions.isEmpty()){
+			qreal newX;
+			qreal newY;
+
+			QRectF otherBoundingRect = collisions.first()->boundingRect();
+			otherBoundingRect.moveTo(collisions.first()->pos());
+			QPointF otherMidPoint = otherBoundingRect.center();
+
+			QRectF ownBoundingRect = boundingRect();
+			ownBoundingRect.moveTo(pos());
+			QPointF ownMidPoint = ownBoundingRect.center();
+
+			if(ownMidPoint.x() - otherMidPoint.x() > 0)
+				newX = otherBoundingRect.left()-gridSize;
+			else
+				newX = otherBoundingRect.right()+gridSize;
+
+			if(ownMidPoint.y() - otherMidPoint.y() > 0)
+				newY = otherBoundingRect.top()-gridSize;
+			else
+				newY = otherBoundingRect.bottom()+gridSize;
+
+			return QPointF(newX, newY);
 		}
-		else
-			return newPos;
+
+		qreal xV = round(newPos.x()/gridSize)*gridSize;
+		qreal yV = round(newPos.y()/gridSize)*gridSize;
+		return QPointF(xV, yV);
 	}
 	else
 		return QGraphicsItem::itemChange(change, value);
+}
+
+
+Pin *CircuitElement::addPort(bool inPin){
+	Pin *port = new Pin(inPin,this);
+	int y = height / 2 + boundingRect().y();
+
+	if (inPin)
+		port->setPos(boundingRect().x()+width+port->boundingRect().width(), y);
+	else
+		port->setPos(boundingRect().x()-port->boundingRect().width(), y);
+
+
+	/*QPainterPath p;
+	p.addRoundedRect(-width/2, -height/2, width, height, 5, 5);
+	setPath(p);*/
+/*
+	int y = -height / 2 + vertMargin + port->radius();
+	foreach(QGraphicsItem *port_, childItems()) {
+		if (port_->type() != QNEPort::Type)
+			continue;
+
+		QNEPort *port = (QNEPort*) port_;
+
+		y += h;
+	}*/
+
+	return port;
 }

@@ -6,8 +6,10 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsObject>
-#include "circuitelement.h"
+#include "sceneeditor.h"
 #include "gridscene.h"
+#include "capacitor.h"
+#include "resistor.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +30,8 @@ private slots:
 private:
 	Ui::MainWindow *ui;
 	void insertCapacitor();
+	void insertResistor();
+	SceneEditor* editor;
 };
 
 #endif // MAINWINDOW_H

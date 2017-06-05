@@ -11,10 +11,10 @@ class GridScene : public QGraphicsScene
 public:
 	explicit GridScene(QObject *parent = 0);
 	int getGridSize(){return gridSize;}
+	constexpr static int gridSize = 20;
 
 private:
 	virtual void drawBackground(QPainter *painter, const QRectF &rect);
-	constexpr static int gridSize = 20;
 
 signals:
 

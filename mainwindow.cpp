@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	auto scene = new GridScene(this);
 
 	ui->graphicsView->setScene(scene);
+	editor = new SceneEditor(this);
+	editor->install(scene);
 }
 
 MainWindow::~MainWindow(){
@@ -31,13 +33,21 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
 
 void MainWindow::insertCapacitor(){
 	qDebug()<<"capacitor";
-	auto object = new CircuitElement();
+	auto object = new Capacitor();
 	ui->graphicsView->scene()->addItem(object);
-	object->setPos(ui->graphicsView->mapToGlobal (QCursor::pos()));
+	object->setPos(QCursor::pos());
+}
+
+void MainWindow::insertResistor(){
+	qDebug()<<"resistor";
+	auto object = new Resistor();
+	ui->graphicsView->scene()->addItem(object);
+	object->setPos(QCursor::pos());
 }
 
 void MainWindow::contextMenuRequested(const QPoint &pos){
 	auto contextMenu = new QMenu(this);
 	contextMenu->addAction("Insert capacitor", this, &MainWindow::insertCapacitor);
+	contextMenu->addAction("Insert resistor", this, &MainWindow::insertResistor);
 	contextMenu->exec(QCursor::pos());
 }
