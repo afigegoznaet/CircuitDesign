@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     wire.cpp \
     sceneeditor.cpp \
     capacitor.cpp \
-    resistor.cpp
+    resistor.cpp \
+    inductor.cpp \
+    speaker.cpp
 
 HEADERS  += mainwindow.h \
     circuitelement.h \
@@ -40,6 +42,8 @@ HEADERS  += mainwindow.h \
     wire.h \
     sceneeditor.h \
     capacitor.h \
-    resistor.h
+    resistor.h \
+    inductor.h \
+    speaker.h
 
 FORMS    += mainwindow.ui

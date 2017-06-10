@@ -1,7 +1,8 @@
 #include "circuitelement.h"
 #include <QDebug>
 
-CircuitElement::CircuitElement(QGraphicsItem *parent):
+CircuitElement::CircuitElement(QGraphicsItem *parent, bool speaker):
+	height(40),
 	QGraphicsItem(parent){
 
 	setFlags(QGraphicsItem::ItemIsSelectable |
@@ -9,12 +10,17 @@ CircuitElement::CircuitElement(QGraphicsItem *parent):
 			 | QGraphicsItem::ItemSendsGeometryChanges
 			 );
 
+	if(speaker){
+		height=80;
+		return;
+	}
+
 	addPort(false);
 	addPort(true);
 }
 
 void CircuitElement::setPos(const QPointF &pos){
-	qDebug()<<pos;
+
 	QPointF newPos(itemChange(ItemPositionChange, pos).toPointF());
 	//int grid = qobject_cast<GridScene*> (scene())->gridSize;
 	QGraphicsItem::setPos(newPos);
@@ -26,8 +32,10 @@ QRectF CircuitElement::boundingRect() const{
 }
 
 void CircuitElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-	painter->setBrush(Qt::green);
-	painter->drawRect(boundingRect());
+	painter->setPen(QPen(Qt::green, 1, Qt::DashLine));
+	if(isSelected())
+		painter->drawRect(boundingRect());
+
 }
 
 QVariant CircuitElement::itemChange(GraphicsItemChange change,
@@ -83,19 +91,23 @@ Pin *CircuitElement::addPort(bool inPin){
 		port->setPos(boundingRect().x()-port->boundingRect().width(), y);
 
 
-	/*QPainterPath p;
-	p.addRoundedRect(-width/2, -height/2, width, height, 5, 5);
-	setPath(p);*/
-/*
-	int y = -height / 2 + vertMargin + port->radius();
-	foreach(QGraphicsItem *port_, childItems()) {
-		if (port_->type() != QNEPort::Type)
-			continue;
-
-		QNEPort *port = (QNEPort*) port_;
-
-		y += h;
-	}*/
-
 	return port;
+}
+
+void CircuitElement::showMenu(){
+	QMenu contextMenu;
+	contextMenu.addAction("Rotate element clockwise", [=](){rotateClockwise();});
+	contextMenu.addAction("Rotate element counterclockwise", [=](){rotateClockwise();});
+	contextMenu.addAction("Edit proprties");
+	contextMenu.exec(QCursor::pos());
+}
+
+void CircuitElement::rotateClockwise(bool clockwiseDirection){
+	qreal angle;
+	if(clockwiseDirection)
+		angle = rotation()+90;
+	else
+		angle = rotation()-90;
+
+	setRotation(angle);
 }

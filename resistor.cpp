@@ -8,7 +8,6 @@ Resistor::Resistor(QGraphicsItem *parent):
 
 void Resistor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	painter->setPen(QPen(Qt::black, 2));
-
 	QRectF rect = boundingRect();
 	qreal midHeight = (rect.height() - rect.top()) / 2;
 	QPoint source(rect.left(), midHeight);
@@ -29,4 +28,5 @@ void Resistor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	dest.setX( rect.right());
 
 	painter->drawLine(source, dest);//pin 2
+	CircuitElement::paint(painter,option,widget);
 }

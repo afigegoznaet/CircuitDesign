@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMenu>
 #include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsObject>
@@ -10,6 +9,8 @@
 #include "gridscene.h"
 #include "capacitor.h"
 #include "resistor.h"
+#include "inductor.h"
+#include "speaker.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +32,8 @@ private:
 	Ui::MainWindow *ui;
 	void insertCapacitor();
 	void insertResistor();
+	void insertInductor();
+	void insertSpeaker();
 	SceneEditor* editor;
 };
 

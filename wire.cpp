@@ -76,8 +76,6 @@ void Wire::updatePath(){
 	p.lineTo(pos1.x()+dx/2, pos2.y());
 	p.lineTo(pos2.x(), pos2.y());
 
-	qDebug()<<pos1;
-	qDebug()<<pos2;
 
 	setPath(p);
 }

@@ -31,4 +31,5 @@ void Capacitor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	dest.setX( rect.right());
 
 	painter->drawLine(source, dest);//pin 2
+	CircuitElement::paint(painter,option,widget);
 }

@@ -22,7 +22,7 @@ protected:
 
 private:
 	CircuitElement *parent_;
-	static constexpr int length = 15;
+	static constexpr int length = 10;
 	QVector<Wire*> m_connections;
 
 friend class SceneEditor;
