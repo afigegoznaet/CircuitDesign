@@ -69,11 +69,12 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 					Pin *pin1 = conn->pin1;
 					Pin *pin2 = (Pin*) item;
 
-					if (pin1->parent_ != pin2->parent_ /*&& port1->isOutput() != port2->isOutput()*/ && !pin1->isConnected(pin2)){
+					if (pin1->parent_ != pin2->parent_ && !pin1->isConnected(pin2)){
 						conn->setPos2(pin2->scenePos());
 						conn->setPort2(pin2);
 						conn->updatePath();
 						conn = 0;
+						pin1->setConnection(pin2);
 						return true;
 					}
 				}else{

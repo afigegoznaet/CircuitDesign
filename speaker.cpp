@@ -1,7 +1,7 @@
 #include "speaker.h"
 
 Speaker::Speaker(QGraphicsItem *parent):
-	CircuitElement(parent, true)
+	CircuitElement(parent, SPEAKER)
 {
 	addPort(false);
 	addPort(true);

@@ -43,3 +43,8 @@ QVariant Pin::itemChange(GraphicsItemChange change, const QVariant &value){
 	return value;
 }
 
+void Pin::setConnection(Pin *other){
+	parent_->setConnection(other->parent_);
+	other->parent_->setConnection(parent_);//ugly
+}
+

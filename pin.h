@@ -24,6 +24,7 @@ private:
 	CircuitElement *parent_;
 	static constexpr int length = 10;
 	QVector<Wire*> m_connections;
+	void setConnection(Pin* other);
 
 friend class SceneEditor;
 };

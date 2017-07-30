@@ -72,8 +72,8 @@ void Wire::updatePath(){
 
 	//p.cubicTo(ctr1, ctr2, pos2);
 
-	p.lineTo(pos1.x()+dx/2, pos1.y());//pos1.y()+dy/2
-	p.lineTo(pos1.x()+dx/2, pos2.y());
+	p.lineTo(pos1.x()+dx, pos1.y());//pos1.y()+dy/2
+	p.lineTo(pos1.x()+dx, pos2.y());
 	p.lineTo(pos2.x(), pos2.y());
 
 

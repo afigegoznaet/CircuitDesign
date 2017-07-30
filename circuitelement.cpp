@@ -1,7 +1,7 @@
 #include "circuitelement.h"
 #include <QDebug>
 
-CircuitElement::CircuitElement(QGraphicsItem *parent, bool speaker):
+CircuitElement::CircuitElement(QGraphicsItem *parent, SpecialDrawings specialType):
 	height(40),
 	QGraphicsItem(parent){
 
@@ -10,13 +10,15 @@ CircuitElement::CircuitElement(QGraphicsItem *parent, bool speaker):
 			 | QGraphicsItem::ItemSendsGeometryChanges
 			 );
 
-	if(speaker){
+	if(specialType == SPEAKER){
 		height=80;
 		return;
 	}
 
-	addPort(false);
 	addPort(true);
+	if(specialType == ENDPOINT)
+		return;
+	addPort(false);
 }
 
 void CircuitElement::setPos(const QPointF &pos){
@@ -100,6 +102,14 @@ void CircuitElement::showMenu(){
 	contextMenu.addAction("Rotate element counterclockwise", [=](){rotateClockwise();});
 	contextMenu.addAction("Edit proprties");
 	contextMenu.exec(QCursor::pos());
+}
+
+void CircuitElement::setConnection(CircuitElement *other){
+	connections.insert(other);
+}
+
+void CircuitElement::removeConnection(CircuitElement *other){
+	connections.erase(other);
 }
 
 void CircuitElement::rotateClockwise(bool clockwiseDirection){

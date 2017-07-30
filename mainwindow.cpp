@@ -59,12 +59,20 @@ void MainWindow::insertSpeaker(){
 	object->setPos(QCursor::pos());
 }
 
+void MainWindow::insertEndPoint(){
+	qDebug()<<"inductor";
+	auto object = new EndPoint();
+	ui->graphicsView->scene()->addItem(object);
+	object->setPos(QCursor::pos());
+}
+
 void MainWindow::contextMenuRequested(const QPoint &pos){
 	auto contextMenu = new QMenu(this);
 	contextMenu->addAction("Insert capacitor", this, &MainWindow::insertCapacitor);
 	contextMenu->addAction("Insert resistor", this, &MainWindow::insertResistor);
 	contextMenu->addAction("Insert inductor", this, &MainWindow::insertInductor);
 	contextMenu->addAction("Insert speaker", this, &MainWindow::insertSpeaker);
+	contextMenu->addAction("Insert endpoint", this, &MainWindow::insertEndPoint);
 	contextMenu->exec(QCursor::pos());
 	qDebug()<<pos<<" "<<QCursor::pos();
 }

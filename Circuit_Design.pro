@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     capacitor.cpp \
     resistor.cpp \
     inductor.cpp \
-    speaker.cpp
+    speaker.cpp \
+    endpoint.cpp
 
 HEADERS  += mainwindow.h \
     circuitelement.h \
@@ -44,6 +45,7 @@ HEADERS  += mainwindow.h \
     capacitor.h \
     resistor.h \
     inductor.h \
-    speaker.h
+    speaker.h \
+    endpoint.h
 
 FORMS    += mainwindow.ui

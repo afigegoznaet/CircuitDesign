@@ -11,6 +11,7 @@
 #include "resistor.h"
 #include "inductor.h"
 #include "speaker.h"
+#include "endpoint.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,7 @@ private:
 	void insertResistor();
 	void insertInductor();
 	void insertSpeaker();
+	void insertEndPoint();
 	SceneEditor* editor;
 };
 
