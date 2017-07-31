@@ -3,6 +3,8 @@
 
 //#include "circuitelement.h"
 #include "wire.h"
+#include <set>
+#include <memory>
 
 class CircuitElement;
 class SceneEditor;
@@ -13,7 +15,7 @@ public:
 	Pin(bool inPin, QGraphicsItem *parent = 0);
 	~Pin();
 
-	QVector<Wire*>& connections(){return m_connections;}
+	QVector<Wire*>& connections(){return wireConnections;}
 	bool isConnected(Pin*);
 	int type() const { return PIN; }
 
@@ -23,9 +25,9 @@ protected:
 private:
 	CircuitElement *parent_;
 	static constexpr int length = 10;
-	QVector<Wire*> m_connections;
+	QVector<Wire*> wireConnections;
 	void setConnection(Pin* other);
-
+	//std::set<Pin*> pinConnections;
 friend class SceneEditor;
 };
 

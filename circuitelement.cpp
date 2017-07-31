@@ -104,14 +104,6 @@ void CircuitElement::showMenu(){
 	contextMenu.exec(QCursor::pos());
 }
 
-void CircuitElement::setConnection(CircuitElement *other){
-	connections.insert(other);
-}
-
-void CircuitElement::removeConnection(CircuitElement *other){
-	connections.erase(other);
-}
-
 void CircuitElement::rotateClockwise(bool clockwiseDirection){
 	qreal angle;
 	if(clockwiseDirection)

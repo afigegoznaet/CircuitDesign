@@ -21,12 +21,12 @@ Pin::Pin(bool inPin, QGraphicsItem *parent):
 }
 
 Pin::~Pin(){
-	foreach(Wire *conn, m_connections)
+	foreach(Wire *conn, wireConnections)
 		delete conn;
 }
 
 bool Pin::isConnected(Pin *other){
-	foreach(Wire *conn, m_connections)
+	foreach(Wire *conn, wireConnections)
 		if (conn->pin1 == other || conn->pin2 == other)
 			return true;
 
@@ -35,16 +35,11 @@ bool Pin::isConnected(Pin *other){
 
 QVariant Pin::itemChange(GraphicsItemChange change, const QVariant &value){
 	if (change == ItemScenePositionHasChanged){
-		foreach(Wire *conn, m_connections){
+		foreach(Wire *conn, wireConnections){
 			conn->updatePosFromPorts();
 			conn->updatePath();
 		}
 	}
 	return value;
-}
-
-void Pin::setConnection(Pin *other){
-	parent_->setConnection(other->parent_);
-	other->parent_->setConnection(parent_);//ugly
 }
 

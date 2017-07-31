@@ -4,7 +4,8 @@
 
 class EndPoint : public CircuitElement
 {
-	static bool end;
+	static bool start;
+	bool startPoint;
 public:
 	EndPoint(QGraphicsItem *parent = 0);
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR);

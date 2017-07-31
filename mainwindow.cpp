@@ -20,6 +20,20 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->graphicsView->setScene(scene);
 	editor = new SceneEditor(this);
 	editor->install(scene);
+	scrollArea->setTransformationAnchor(QGraphicsView::NoAnchor);
+
+	qDebug()<<"inductor";
+	auto object1 = new EndPoint();
+	auto object2 = new EndPoint();
+	ui->graphicsView->scene()->addItem(object1);
+
+	((QGraphicsItem*)object1)->setPos(QPointF(0,0));
+
+	ui->graphicsView->scene()->addItem(object2);
+	auto point = QPointF(0,50);
+	((QGraphicsItem*)object2)->setPos(point);
+	((QGraphicsItem*)object2)->setPos(point);
+
 }
 
 MainWindow::~MainWindow(){

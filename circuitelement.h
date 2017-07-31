@@ -1,7 +1,6 @@
 #ifndef CIRCUITELEMENT_H
 #define CIRCUITELEMENT_H
 
-#include <set>
 #include "pin.h"
 #include <QMenu>
 #include <QGraphicsItem>
@@ -17,8 +16,6 @@ public:
 	int type() const { return CIRC_ELEMENT; }
 	void setPos(const QPointF &pos);
 	void showMenu();
-	void setConnection(CircuitElement*other);
-	void removeConnection(CircuitElement*other);
 
 private:
 	QVariant itemChange(GraphicsItemChange change,
@@ -28,7 +25,6 @@ protected:
 	virtual Pin* addPort(bool inPin);
 	static constexpr int width=80;
 	int height;
-	std::set<CircuitElement*> connections;
 	//static constexpr int horzMargin = 20;
 	//static constexpr int vertMargin = 5;
 };

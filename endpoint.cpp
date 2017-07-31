@@ -1,12 +1,12 @@
 #include "endpoint.h"
 
-bool EndPoint::end = true;
+bool EndPoint::start = true;
 
 EndPoint::EndPoint(QGraphicsItem *parent):
-	CircuitElement(parent, ENDPOINT){
+	CircuitElement(parent, ENDPOINT), startPoint(start){
 	//end=true;//static, innitializes only once
-	if(end)
-		end=false;
+	if(start)
+		start=false;
 }
 
 void EndPoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -23,6 +23,16 @@ void EndPoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	QPoint source(ellipseRect.right(), midHeight);
 	QPoint dest(rect.right(), midHeight);
 	painter->drawLine(source, dest);//pin
+	//QRectF labelRect(4,10,20,20);
+	QRectF labelRect(rect.width()/20,rect.width()/8,rect.height()/2,rect.height()/2);
+	auto font = painter->font();
+	font.setPixelSize(rect.width()/5);
+	painter->setFont(font);
+	if(startPoint)
+		painter->drawText(labelRect, "*");
+	else
+		painter->drawText(labelRect, "0");
 
 	CircuitElement::paint(painter,option,widget);
+
 }

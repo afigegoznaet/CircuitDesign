@@ -74,7 +74,6 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 						conn->setPort2(pin2);
 						conn->updatePath();
 						conn = 0;
-						pin1->setConnection(pin2);
 						return true;
 					}
 				}else{
