@@ -10,72 +10,72 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QMainWindow>
-#include <QtGui/QMenuBar>
-#include <QtGui/QStatusBar>
-#include <QtGui/QToolBar>
-#include <QtGui/QWidget>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QGraphicsView>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QStatusBar>
+#include <QToolBar>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_MainWindow
 {
 public:
-    QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout;
-    QGraphicsView *graphicsView;
-    QMenuBar *menuBar;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
+	QWidget *centralWidget;
+	QHBoxLayout *horizontalLayout;
+	QGraphicsView *graphicsView;
+	QMenuBar *menuBar;
+	QToolBar *mainToolBar;
+	QStatusBar *statusBar;
 
-    void setupUi(QMainWindow *MainWindow)
-    {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(918, 596);
-        centralWidget = new QWidget(MainWindow);
-        centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        horizontalLayout = new QHBoxLayout(centralWidget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        graphicsView = new QGraphicsView(centralWidget);
-        graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
+	void setupUi(QMainWindow *MainWindow)
+	{
+		if (MainWindow->objectName().isEmpty())
+			MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
+		MainWindow->resize(918, 596);
+		centralWidget = new QWidget(MainWindow);
+		centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+		horizontalLayout = new QHBoxLayout(centralWidget);
+		horizontalLayout->setSpacing(6);
+		horizontalLayout->setContentsMargins(11, 11, 11, 11);
+		horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+		graphicsView = new QGraphicsView(centralWidget);
+		graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
 
-        horizontalLayout->addWidget(graphicsView);
+		horizontalLayout->addWidget(graphicsView);
 
-        MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 918, 19));
-        MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QString::fromUtf8("statusBar"));
-        MainWindow->setStatusBar(statusBar);
+		MainWindow->setCentralWidget(centralWidget);
+		menuBar = new QMenuBar(MainWindow);
+		menuBar->setObjectName(QString::fromUtf8("menuBar"));
+		menuBar->setGeometry(QRect(0, 0, 918, 19));
+		MainWindow->setMenuBar(menuBar);
+		mainToolBar = new QToolBar(MainWindow);
+		mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+		MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
+		statusBar = new QStatusBar(MainWindow);
+		statusBar->setObjectName(QString::fromUtf8("statusBar"));
+		MainWindow->setStatusBar(statusBar);
 
-        retranslateUi(MainWindow);
+		retranslateUi(MainWindow);
 
-        QMetaObject::connectSlotsByName(MainWindow);
-    } // setupUi
+		QMetaObject::connectSlotsByName(MainWindow);
+	} // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
-    {
+	void retranslateUi(QMainWindow *MainWindow)
+	{
 		MainWindow->setWindowTitle("MainWindow");
-    } // retranslateUi
+	} // retranslateUi
 
 };
 
 namespace Ui {
-    class MainWindow: public Ui_MainWindow {};
+	class MainWindow: public Ui_MainWindow {};
 } // namespace Ui
 
 QT_END_NAMESPACE
