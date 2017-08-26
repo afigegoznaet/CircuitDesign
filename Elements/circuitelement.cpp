@@ -33,7 +33,7 @@ QRectF CircuitElement::boundingRect() const{
 	return rect;
 }
 
-void CircuitElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void CircuitElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
 	painter->setPen(QPen(Qt::green, 1, Qt::DashLine));
 	if(isSelected())
 		painter->drawRect(boundingRect());
@@ -98,8 +98,15 @@ Pin *CircuitElement::addPort(bool inPin){
 
 void CircuitElement::showMenu(){
 	QMenu contextMenu;
+
 	contextMenu.addAction("Rotate element clockwise", [=](){rotateClockwise();});
 	contextMenu.addAction("Rotate element counterclockwise", [=](){rotateClockwise();});
+	contextMenu.addSeparator();
+	contextMenu.addAction("Cut (N/A yet)");
+	contextMenu.addAction("Copy (N/A yet)");
+	contextMenu.addAction("Paste (N/A yet)");
+	contextMenu.addAction("Delete (N/A yet)");
+	contextMenu.addSeparator();
 	contextMenu.addAction("Edit proprties");
 	contextMenu.exec(QCursor::pos());
 }

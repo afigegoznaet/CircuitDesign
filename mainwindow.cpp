@@ -7,13 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 	QGraphicsView* scrollArea = ui->graphicsView;
 
+	createMenu();
 	scrollArea->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(scrollArea, SIGNAL(customContextMenuRequested(const QPoint &)),
 			this, SLOT(contextMenuRequested(const QPoint &)));
 
-	//connect(ui->scrollArea,SIGNAL(mousePressEvent(QMouseEvent*)),
-		//	this, SLOT(mousePressEvent(QMouseEvent*)));
 
 	auto scene = new GridScene(this);
 
@@ -43,6 +42,29 @@ MainWindow::~MainWindow(){
 void MainWindow::mousePressEvent(QMouseEvent *event){
 	if(event->button() != Qt::RightButton)
 		return;
+}
+
+void MainWindow::createMenu(){
+	contextMenu = new QMenu(this);
+	contextMenu->addAction("Insert capacitor", this, &MainWindow::insertCapacitor);
+	contextMenu->addAction("Insert inductor", this, &MainWindow::insertInductor);
+	contextMenu->addAction("Insert resistor", this, &MainWindow::insertResistor);
+	contextMenu->addSeparator();
+	contextMenu->addAction("Insert speaker", this, &MainWindow::insertSpeaker);
+	contextMenu->addAction("Insert endpoint", this, &MainWindow::insertEndPoint);
+	contextMenu->addSeparator();
+	contextMenu->addAction("Insert passive filter (N/A yet)");
+	contextMenu->addAction("Insert active filter (N/A yet)");
+	contextMenu->addAction("Insert digital filter (N/A yet)");
+	contextMenu->addAction("Insert buffer/amplifier (N/A yet)");
+	contextMenu->addSeparator();
+	contextMenu->addAction("Place text (N/A yet)");
+	contextMenu->addSeparator();
+	contextMenu->addAction("Cut (N/A yet)");
+	contextMenu->addAction("Copy (N/A yet)");
+	contextMenu->addAction("Paste (N/A yet)");
+	contextMenu->addSeparator();
+	contextMenu->addAction("Properties (N/A yet)");
 }
 
 void MainWindow::insertCapacitor(){
@@ -81,12 +103,6 @@ void MainWindow::insertEndPoint(){
 }
 
 void MainWindow::contextMenuRequested(const QPoint &pos){
-	auto contextMenu = new QMenu(this);
-	contextMenu->addAction("Insert capacitor", this, &MainWindow::insertCapacitor);
-	contextMenu->addAction("Insert resistor", this, &MainWindow::insertResistor);
-	contextMenu->addAction("Insert inductor", this, &MainWindow::insertInductor);
-	contextMenu->addAction("Insert speaker", this, &MainWindow::insertSpeaker);
-	contextMenu->addAction("Insert endpoint", this, &MainWindow::insertEndPoint);
 	contextMenu->exec(QCursor::pos());
 	qDebug()<<pos<<" "<<QCursor::pos();
 }

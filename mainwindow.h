@@ -7,11 +7,11 @@
 #include <QGraphicsObject>
 #include "sceneeditor.h"
 #include "gridscene.h"
-#include "capacitor.h"
-#include "resistor.h"
-#include "inductor.h"
-#include "speaker.h"
-#include "endpoint.h"
+#include "Elements\capacitor.h"
+#include "Elements\resistor.h"
+#include "Elements\inductor.h"
+#include "Elements\speaker.h"
+#include "Elements\endpoint.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,12 +31,14 @@ private slots:
 
 private:
 	Ui::MainWindow *ui;
+	void createMenu();
 	void insertCapacitor();
 	void insertResistor();
 	void insertInductor();
 	void insertSpeaker();
 	void insertEndPoint();
 	SceneEditor* editor;
+	QMenu* contextMenu;
 };
 
 #endif // MAINWINDOW_H

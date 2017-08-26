@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include "circuitelement.h"
+#include "Elements\circuitelement.h"
 class SceneEditor : public QObject
 {
 	Q_OBJECT

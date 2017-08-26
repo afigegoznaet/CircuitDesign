@@ -11,7 +11,7 @@ class CircuitElement : public QGraphicsItem
 public:
 	enum SpecialDrawings{REGULAR, SPEAKER, ENDPOINT};
 	explicit CircuitElement(QGraphicsItem *parent = 0, SpecialDrawings specialType=REGULAR);
-	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR)=0;
+	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)=0;
 	virtual QRectF boundingRect() const;
 	int type() const { return CIRC_ELEMENT; }
 	void setPos(const QPointF &pos);

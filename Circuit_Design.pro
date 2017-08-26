@@ -26,27 +26,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    circuitelement.cpp \
     gridscene.cpp \
-    pin.cpp \
-    wire.cpp \
     sceneeditor.cpp \
-    capacitor.cpp \
-    resistor.cpp \
-    inductor.cpp \
-    speaker.cpp \
-    endpoint.cpp
+    Elements/capacitor.cpp \
+    Elements/circuitelement.cpp \
+    Elements/endpoint.cpp \
+    Elements/inductor.cpp \
+    Elements/pin.cpp \
+    Elements/resistor.cpp \
+    Elements/speaker.cpp \
+    Elements/wire.cpp
 
 HEADERS  += mainwindow.h \
-    circuitelement.h \
     gridscene.h \
-    pin.h \
-    wire.h \
     sceneeditor.h \
-    capacitor.h \
-    resistor.h \
-    inductor.h \
-    speaker.h \
-    endpoint.h
+    Elements/capacitor.h \
+    Elements/circuitelement.h \
+    Elements/endpoint.h \
+    Elements/inductor.h \
+    Elements/pin.h \
+    Elements/resistor.h \
+    Elements/speaker.h \
+    Elements/wire.h
 
 FORMS    += mainwindow.ui
