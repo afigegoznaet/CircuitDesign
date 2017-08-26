@@ -46,12 +46,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
 
 void MainWindow::createMenu(){
 	contextMenu = new QMenu(this);
-	contextMenu->addAction("Insert capacitor", this, &MainWindow::insertCapacitor);
-	contextMenu->addAction("Insert inductor", this, &MainWindow::insertInductor);
-	contextMenu->addAction("Insert resistor", this, &MainWindow::insertResistor);
+	contextMenu->addAction("Insert &capacitor", this, &MainWindow::insertCapacitor, QString("C"));
+	contextMenu->addAction("Insert &inductor", this, &MainWindow::insertInductor, QString("I"));
+	contextMenu->addAction("Insert &resistor", this, &MainWindow::insertResistor, QString("R"));
 	contextMenu->addSeparator();
-	contextMenu->addAction("Insert speaker", this, &MainWindow::insertSpeaker);
-	contextMenu->addAction("Insert endpoint", this, &MainWindow::insertEndPoint);
+	contextMenu->addAction("Insert &speaker", this, &MainWindow::insertSpeaker, QString("S"));
+	contextMenu->addAction("Insert &endpoint", this, &MainWindow::insertEndPoint, QString("E"));
 	contextMenu->addSeparator();
 	contextMenu->addAction("Insert passive filter (N/A yet)");
 	contextMenu->addAction("Insert active filter (N/A yet)");
