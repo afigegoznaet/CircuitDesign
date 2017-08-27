@@ -98,9 +98,7 @@ Pin *CircuitElement::addPort(bool inPin){
 
 void CircuitElement::showMenu(){
 	QMenu contextMenu;
-
-	contextMenu.addAction("Rotate element clockwise", [=](){rotateClockwise();});
-	contextMenu.addAction("Rotate element counterclockwise", [=](){rotateClockwise();});
+	contextMenu.addAction("Rotate element", [=](){rotateClockwise();});
 	contextMenu.addSeparator();
 	contextMenu.addAction("Cut (N/A yet)");
 	contextMenu.addAction("Copy (N/A yet)");
