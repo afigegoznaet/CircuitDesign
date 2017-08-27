@@ -18,7 +18,6 @@ QGraphicsItem* SceneEditor::itemAt(const QPointF &pos)
 	foreach(QGraphicsItem *item, items)
 		if (item->type() >= QGraphicsItem::UserType)
 			return item;
-
 	return 0;
 }
 
@@ -49,7 +48,7 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 				case Qt::RightButton:{
 					QGraphicsItem *item = itemAt(me->scenePos());
 					if (item && item->type() == CIRC_ELEMENT)
-						((CircuitElement*)item)->showMenu();
+						showMenu((CircuitElement*)item);
 					break;
 				}
 			}
@@ -93,4 +92,27 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 		}
 	}
 	return QObject::eventFilter(o, e);
+}
+
+void SceneEditor::showMenu(CircuitElement* elem){
+	QMenu contextMenu;
+	contextMenu.addAction("Rotate element", [&](){elem->rotateClockwise();});
+	contextMenu.addSeparator();
+	contextMenu.addAction("Cut (N/A yet)");
+	contextMenu.addAction("Copy (N/A yet)");
+	contextMenu.addAction("Paste (N/A yet)");
+
+	auto deleter = [&](){
+		if(EndPoint* endP = dynamic_cast<EndPoint*> (elem))
+			if(endP->isStartingPoint()){
+				(QMessageBox(QMessageBox::Information, "Error", "Can't delete starting endpoint")).exec();
+				return;
+			}
+
+		scene->removeItem(elem);
+	};
+	contextMenu.addAction("&Delete)", this, deleter, QString("D"));
+	contextMenu.addSeparator();
+	contextMenu.addAction("Edit proprties");
+	contextMenu.exec(QCursor::pos());
 }

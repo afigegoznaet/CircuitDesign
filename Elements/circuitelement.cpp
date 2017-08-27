@@ -2,7 +2,6 @@
 #include <QDebug>
 
 CircuitElement::CircuitElement(QGraphicsItem *parent, SpecialDrawings specialType):
-	height(40),
 	QGraphicsItem(parent){
 
 	setFlags(QGraphicsItem::ItemIsSelectable |
@@ -94,18 +93,7 @@ Pin *CircuitElement::addPort(bool inPin){
 	return port;
 }
 
-void CircuitElement::showMenu(){
-	QMenu contextMenu;
-	contextMenu.addAction("Rotate element", [=](){rotateClockwise();});
-	contextMenu.addSeparator();
-	contextMenu.addAction("Cut (N/A yet)");
-	contextMenu.addAction("Copy (N/A yet)");
-	contextMenu.addAction("Paste (N/A yet)");
-	contextMenu.addAction("Delete (N/A yet)");
-	contextMenu.addSeparator();
-	contextMenu.addAction("Edit proprties");
-	contextMenu.exec(QCursor::pos());
-}
+
 
 void CircuitElement::rotateClockwise(bool clockwiseDirection){
 

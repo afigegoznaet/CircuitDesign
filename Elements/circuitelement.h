@@ -15,16 +15,15 @@ public:
 	virtual QRectF boundingRect() const;
 	int type() const { return CIRC_ELEMENT; }
 	void setPos(const QPointF &pos);
-	void showMenu();
+	void rotateClockwise(bool clockwiseDirection=true);
 
 private:
 	QVariant itemChange(GraphicsItemChange change,
 							const QVariant &value);
-	void rotateClockwise(bool clockwiseDirection=true);
 protected:
 	virtual Pin* addPort(bool inPin);
-	static constexpr int width=80;
-	int height;
+	static constexpr int width = 80;
+	int height = 40;
 	//static constexpr int horzMargin = 20;
 	//static constexpr int vertMargin = 5;
 };

@@ -4,7 +4,8 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include "Elements/circuitelement.h"
+#include <QMessageBox>
+#include "Elements/endpoint.h"
 class SceneEditor : public QObject
 {
 	Q_OBJECT
@@ -15,10 +16,12 @@ public:
 
 private:
 	QGraphicsItem *itemAt(const QPointF&);
+	void showMenu(CircuitElement*elem);
 
 private:
 	QGraphicsScene *scene;
 	Wire *conn;
+
 };
 
 #endif // SCENEEDITOR_H
