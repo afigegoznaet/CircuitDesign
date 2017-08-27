@@ -7,11 +7,11 @@
 #include <QGraphicsObject>
 #include "sceneeditor.h"
 #include "gridscene.h"
-#include "Elements\capacitor.h"
-#include "Elements\resistor.h"
-#include "Elements\inductor.h"
-#include "Elements\speaker.h"
-#include "Elements\endpoint.h"
+#include "Elements/capacitor.h"
+#include "Elements/resistor.h"
+#include "Elements/inductor.h"
+#include "Elements/speaker.h"
+#include "Elements/endpoint.h"
 
 namespace Ui {
 class MainWindow;

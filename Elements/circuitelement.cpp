@@ -10,15 +10,14 @@ CircuitElement::CircuitElement(QGraphicsItem *parent, SpecialDrawings specialTyp
 			 | QGraphicsItem::ItemSendsGeometryChanges
 			 );
 
-	if(specialType == SPEAKER){
+	if(specialType == SPEAKER)
 		height=80;
-		return;
+	else{
+		addPort(true);
+		if(specialType != ENDPOINT)
+			addPort(false);
 	}
-
-	addPort(true);
-	if(specialType == ENDPOINT)
-		return;
-	addPort(false);
+	setTransformOriginPoint(width/2, height/2);
 }
 
 void CircuitElement::setPos(const QPointF &pos){
@@ -41,8 +40,7 @@ void CircuitElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *, 
 }
 
 QVariant CircuitElement::itemChange(GraphicsItemChange change,
-const QVariant &value)
-{
+const QVariant &value){
 	if (change == ItemPositionChange && scene()) {
 		QPointF newPos = value.toPointF();
 		GridScene* customScene = qobject_cast<GridScene*> (scene());
@@ -110,6 +108,7 @@ void CircuitElement::showMenu(){
 }
 
 void CircuitElement::rotateClockwise(bool clockwiseDirection){
+
 	qreal angle;
 	if(clockwiseDirection)
 		angle = rotation()+90;

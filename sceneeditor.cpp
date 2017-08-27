@@ -27,8 +27,12 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 	QGraphicsSceneMouseEvent *me = (QGraphicsSceneMouseEvent*) e;
 
 	switch (e->type()){
+		default:
+			break;
 		case QEvent::GraphicsSceneMousePress:{
 			switch (me->button()){
+				default:
+					break;
 				case Qt::LeftButton:{
 					QGraphicsItem *item = itemAt(me->scenePos());
 					if (item && item->type() == PIN){
@@ -78,7 +82,7 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 					}
 				}else{
 					((CircuitElement*)item)->setPos(item->scenePos());
-					item->setSelected(false);
+					//item->setEnabled(false);
 				}
 
 				delete conn;
