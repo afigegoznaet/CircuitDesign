@@ -3,6 +3,7 @@
 
 SceneEditor::SceneEditor(QObject *parent) : QObject(parent){
 	conn = 0;
+	createMenus();
 }
 
 void SceneEditor::install(QGraphicsScene *s)
@@ -42,7 +43,14 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 						conn->setPos2(me->scenePos());
 						conn->updatePath();
 						return true;
-					}
+					}else if(item){
+						item->setSelected(true);
+						item->setEnabled(true);
+					}else
+						foreach (auto &itemRef, scene->selectedItems()) {
+							itemRef->setSelected(false);
+							itemRef->setEnabled(false);
+						}
 					break;
 				}
 				case Qt::RightButton:{
@@ -94,14 +102,37 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 	return QObject::eventFilter(o, e);
 }
 
-void SceneEditor::showMenu(CircuitElement* elem){
-	QMenu contextMenu;
-	contextMenu.addAction("Rotate element", [&](){elem->rotateClockwise();});
-	contextMenu.addSeparator();
-	contextMenu.addAction("Cut (N/A yet)");
-	contextMenu.addAction("Copy (N/A yet)");
-	contextMenu.addAction("Paste (N/A yet)");
+void SceneEditor::createMenus(){
+	sceneContextMenu = new QMenu((QWidget*)this->parent());//parent is main windwo. Ugly hack
+	sceneContextMenu->addAction("Add &capacitor",[&](){insertElement(CAPACITOR);} , QString("C"));
+	sceneContextMenu->addAction("Add &inductor", [&](){insertElement(INDUCTOR);}, QString("I"));
+	sceneContextMenu->addAction("Add &resistor",[&](){insertElement(RESISTOR);}, QString("R"));
+	sceneContextMenu->addSeparator();
+	sceneContextMenu->addAction("Add &speaker", [&](){insertElement(SPEAKER);}, QString("S"));
+	sceneContextMenu->addAction("Add &endpoint", [&](){insertElement(ENDPOINT);}, QString("E"));
+	sceneContextMenu->addSeparator();
+	sceneContextMenu->addAction("Add active filter (N/A yet)");
+	sceneContextMenu->addAction("Add digital filter (N/A yet)");
+	sceneContextMenu->addAction("Add buffer/amplifier (N/A yet)");
+	sceneContextMenu->addSeparator();
+	sceneContextMenu->addAction("Place text (N/A yet)");
+	sceneContextMenu->addSeparator();
+	sceneContextMenu->addAction("Cut (N/A yet)");
+	sceneContextMenu->addAction("Copy (N/A yet)");
+	sceneContextMenu->addAction("Paste (N/A yet)");
+	sceneContextMenu->addSeparator();
+	sceneContextMenu->addAction("Properties (N/A yet)");
 
+
+}
+
+void SceneEditor::showMenu(CircuitElement* elem){
+	QMenu* itemContextMenu = new QMenu((QWidget*)this->parent());
+	itemContextMenu->addAction("Rotate element", [&](){elem->rotateClockwise();});
+	itemContextMenu->addSeparator();
+	itemContextMenu->addAction("Cut (N/A yet)");
+	itemContextMenu->addAction("Copy (N/A yet)");
+	itemContextMenu->addAction("Paste (N/A yet)");
 	auto deleter = [&](){
 		if(EndPoint* endP = dynamic_cast<EndPoint*> (elem))
 			if(endP->isStartingPoint()){
@@ -111,8 +142,38 @@ void SceneEditor::showMenu(CircuitElement* elem){
 
 		scene->removeItem(elem);
 	};
-	contextMenu.addAction("&Delete)", this, deleter, QString("D"));
-	contextMenu.addSeparator();
-	contextMenu.addAction("Edit proprties");
-	contextMenu.exec(QCursor::pos());
+	itemContextMenu->addAction("&Delete)", this, deleter, QString("D"));
+	itemContextMenu->addSeparator();
+	itemContextMenu->addAction("Edit proprties");
+	itemContextMenu->exec(QCursor::pos());
+}
+
+void SceneEditor::contextMenuRequested(const QPoint &pos){
+	sceneContextMenu->exec(QCursor::pos());
+	qDebug()<<pos<<" "<<QCursor::pos();
+}
+
+void SceneEditor::insertElement(ElementType type){
+	CircuitElement* elem;
+	switch (type) {
+	case CAPACITOR:
+		elem = new Capacitor();
+		break;
+	case INDUCTOR:
+		elem = new Inductor();
+		break;
+	case RESISTOR:
+		elem = new Resistor();
+		break;
+	case SPEAKER:
+		elem = new Speaker();
+		break;
+	case ENDPOINT:
+		elem = new EndPoint();
+		break;
+	default:
+		break;
+	}
+	scene->addItem(elem);
+	elem->setPos(QCursor::pos());
 }

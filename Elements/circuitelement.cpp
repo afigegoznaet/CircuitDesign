@@ -1,7 +1,7 @@
 #include "circuitelement.h"
 #include <QDebug>
 
-CircuitElement::CircuitElement(QGraphicsItem *parent, SpecialDrawings specialType):
+CircuitElement::CircuitElement(QGraphicsItem *parent, ElementType specialType):
 	QGraphicsItem(parent){
 
 	setFlags(QGraphicsItem::ItemIsSelectable |

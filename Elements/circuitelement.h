@@ -5,12 +5,12 @@
 #include <QMenu>
 #include <QGraphicsItem>
 
+enum ElementType{DUMMY, CAPACITOR, INDUCTOR, RESISTOR, SPEAKER, ENDPOINT};
 class CircuitElement : public QGraphicsItem
 {
 	//Q_OBJECT
 public:
-	enum SpecialDrawings{REGULAR, SPEAKER, ENDPOINT};
-	explicit CircuitElement(QGraphicsItem *parent = 0, SpecialDrawings specialType=REGULAR);
+	CircuitElement(QGraphicsItem *parent = 0, ElementType specialType=DUMMY);
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)=0;
 	virtual QRectF boundingRect() const;
 	int type() const { return CIRC_ELEMENT; }

@@ -7,18 +7,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 	QGraphicsView* scrollArea = ui->graphicsView;
 
-	createMenu();
 	scrollArea->setContextMenuPolicy(Qt::CustomContextMenu);
-
-	connect(scrollArea, SIGNAL(customContextMenuRequested(const QPoint &)),
-			this, SLOT(contextMenuRequested(const QPoint &)));
-
 
 	auto scene = new GridScene(this);
 
 	ui->graphicsView->setScene(scene);
 	editor = new SceneEditor(this);
 	editor->install(scene);
+
+	connect(scrollArea, SIGNAL(customContextMenuRequested(const QPoint &)),
+			editor, SLOT(contextMenuRequested(const QPoint &)));
 	scrollArea->setTransformationAnchor(QGraphicsView::NoAnchor);
 
 	qDebug()<<"inductor";
@@ -44,64 +42,3 @@ void MainWindow::mousePressEvent(QMouseEvent *event){
 		return;
 }
 
-void MainWindow::createMenu(){
-	contextMenu = new QMenu(this);
-	contextMenu->addAction("Add &capacitor", this, &MainWindow::insertCapacitor, QString("C"));
-	contextMenu->addAction("Add &inductor", this, &MainWindow::insertInductor, QString("I"));
-	contextMenu->addAction("Add &resistor", this, &MainWindow::insertResistor, QString("R"));
-	contextMenu->addSeparator();
-	contextMenu->addAction("Add &speaker", this, &MainWindow::insertSpeaker, QString("S"));
-	contextMenu->addAction("Add &endpoint", this, &MainWindow::insertEndPoint, QString("E"));
-	contextMenu->addSeparator();
-	contextMenu->addAction("Add active filter (N/A yet)");
-	contextMenu->addAction("Add digital filter (N/A yet)");
-	contextMenu->addAction("Add buffer/amplifier (N/A yet)");
-	contextMenu->addSeparator();
-	contextMenu->addAction("Place text (N/A yet)");
-	contextMenu->addSeparator();
-	contextMenu->addAction("Cut (N/A yet)");
-	contextMenu->addAction("Copy (N/A yet)");
-	contextMenu->addAction("Paste (N/A yet)");
-	contextMenu->addSeparator();
-	contextMenu->addAction("Properties (N/A yet)");
-}
-
-void MainWindow::insertCapacitor(){
-	qDebug()<<"capacitor";
-	auto object = new Capacitor();
-	ui->graphicsView->scene()->addItem(object);
-	object->setPos(QCursor::pos());
-}
-
-void MainWindow::insertResistor(){
-	qDebug()<<"resistor";
-	auto object = new Resistor();
-	ui->graphicsView->scene()->addItem(object);
-	object->setPos(QCursor::pos());
-}
-
-void MainWindow::insertInductor(){
-	qDebug()<<"inductor";
-	auto object = new Inductor();
-	ui->graphicsView->scene()->addItem(object);
-	object->setPos(QCursor::pos());
-}
-
-void MainWindow::insertSpeaker(){
-	qDebug()<<"inductor";
-	auto object = new Speaker();
-	ui->graphicsView->scene()->addItem(object);
-	object->setPos(QCursor::pos());
-}
-
-void MainWindow::insertEndPoint(){
-	qDebug()<<"inductor";
-	auto object = new EndPoint();
-	ui->graphicsView->scene()->addItem(object);
-	object->setPos(QCursor::pos());
-}
-
-void MainWindow::contextMenuRequested(const QPoint &pos){
-	contextMenu->exec(QCursor::pos());
-	qDebug()<<pos<<" "<<QCursor::pos();
-}
