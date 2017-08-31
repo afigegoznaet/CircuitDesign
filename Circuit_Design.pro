@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     Elements/pin.cpp \
     Elements/resistor.cpp \
     Elements/speaker.cpp \
-    Elements/wire.cpp
+    Elements/wire.cpp \
+    clipboard.cpp
 
 HEADERS  += mainwindow.h \
     gridscene.h \
@@ -47,6 +48,7 @@ HEADERS  += mainwindow.h \
     Elements/pin.h \
     Elements/resistor.h \
     Elements/speaker.h \
-    Elements/wire.h
+    Elements/wire.h \
+    clipboard.h
 
 FORMS    += mainwindow.ui

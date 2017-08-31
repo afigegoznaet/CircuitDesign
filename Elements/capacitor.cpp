@@ -1,9 +1,11 @@
 #include "capacitor.h"
 
 Capacitor::Capacitor(QGraphicsItem *parent):
-	CircuitElement(parent)
-{
+	CircuitElement(parent){
+}
 
+Capacitor* Capacitor::clone(){
+	return new Capacitor(*this);
 }
 
 void Capacitor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){

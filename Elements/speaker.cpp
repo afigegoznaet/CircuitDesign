@@ -7,6 +7,10 @@ Speaker::Speaker(QGraphicsItem *parent):
 	addPort(true);
 }
 
+Speaker* Speaker::clone(){
+	return new Speaker(*this);
+}
+
 void Speaker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	painter->setPen(QPen(Qt::black, 2));
 	QRectF rect = boundingRect();

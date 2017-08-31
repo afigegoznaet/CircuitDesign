@@ -4,6 +4,7 @@
 SceneEditor::SceneEditor(QObject *parent) : QObject(parent){
 	conn = 0;
 	createMenus();
+	clipboard = ClipBoard::getInstance();
 }
 
 void SceneEditor::install(QGraphicsScene *s)
@@ -117,12 +118,17 @@ void SceneEditor::createMenus(){
 	sceneContextMenu->addSeparator();
 	sceneContextMenu->addAction("Place text (N/A yet)");
 	sceneContextMenu->addSeparator();
-	sceneContextMenu->addAction("Cut (N/A yet)");
-	sceneContextMenu->addAction("Copy (N/A yet)");
-	sceneContextMenu->addAction("Paste (N/A yet)");
+	auto act = sceneContextMenu->addAction("Cut");
+	act->setEnabled(false);
+	//connect(this, SIGNAL(clipboardContentsEnabled(bool)), act, SLOT(setEnabled(bool)));
+	act = sceneContextMenu->addAction("Copy");
+	act->setEnabled(false);
+	//connect(this, SIGNAL(clipboardContentsEnabled(bool)), act, SLOT(setEnabled(bool)));
+	act = sceneContextMenu->addAction("Paste", [&](){auto elem = clipboard->paste(); scene->addItem(elem); elem->setPos(QCursor::pos());});
+	act->setEnabled(false);
+	connect(this, SIGNAL(clipboardContentsEnabled(bool)), act, SLOT(setEnabled(bool)));
 	sceneContextMenu->addSeparator();
 	sceneContextMenu->addAction("Properties (N/A yet)");
-
 
 }
 
@@ -130,9 +136,10 @@ void SceneEditor::showMenu(CircuitElement* elem){
 	QMenu* itemContextMenu = new QMenu((QWidget*)this->parent());
 	itemContextMenu->addAction("Rotate element", [&](){elem->rotateClockwise();});
 	itemContextMenu->addSeparator();
-	itemContextMenu->addAction("Cut (N/A yet)");
-	itemContextMenu->addAction("Copy (N/A yet)");
-	itemContextMenu->addAction("Paste (N/A yet)");
+	itemContextMenu->addAction("Cut", [&](){clipboard->cut(elem); scene->removeItem(elem); emit clipboardContentsEnabled(true);});
+	itemContextMenu->addAction("Copy", [&](){clipboard->copy(elem);emit clipboardContentsEnabled(true);});
+	auto act = itemContextMenu->addAction("Paste");
+	act->setEnabled(false);
 	auto deleter = [&](){
 		if(EndPoint* endP = dynamic_cast<EndPoint*> (elem))
 			if(endP->isStartingPoint()){
@@ -141,6 +148,7 @@ void SceneEditor::showMenu(CircuitElement* elem){
 			}
 
 		scene->removeItem(elem);
+		delete elem;
 	};
 	itemContextMenu->addAction("&Delete)", this, deleter, QString("D"));
 	itemContextMenu->addSeparator();

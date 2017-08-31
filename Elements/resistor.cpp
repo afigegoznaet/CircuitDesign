@@ -6,6 +6,10 @@ Resistor::Resistor(QGraphicsItem *parent):
 
 }
 
+Resistor* Resistor::clone(){
+	return new Resistor(*this);
+}
+
 void Resistor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	painter->setPen(QPen(Qt::black, 2));
 	QRectF rect = boundingRect();

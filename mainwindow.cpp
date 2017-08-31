@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	auto scene = new GridScene(this);
 
 	ui->graphicsView->setScene(scene);
+	ui->graphicsView->setSceneRect(scene->sceneRect());
 	editor = new SceneEditor(this);
 	editor->install(scene);
 

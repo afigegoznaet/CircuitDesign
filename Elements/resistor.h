@@ -7,7 +7,9 @@ class Resistor : public CircuitElement
 {
 public:
 	Resistor(QGraphicsItem *parent = 0);
+	Resistor(const Resistor&){}
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR);
+	Resistor* clone();
 };
 
 #endif // RESISTOR_H

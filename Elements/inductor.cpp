@@ -6,6 +6,10 @@ Inductor::Inductor(QGraphicsItem *parent):
 
 }
 
+Inductor* Inductor::clone(){
+	return new Inductor(*this);
+}
+
 void Inductor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	painter->setPen(QPen(Qt::black, 2));
 

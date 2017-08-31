@@ -9,6 +9,10 @@ EndPoint::EndPoint(QGraphicsItem *parent):
 		start=false;
 }
 
+EndPoint* EndPoint::clone(){
+	return new EndPoint(*this);
+}
+
 void EndPoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 	painter->setPen(QPen(Qt::black, 2));
 

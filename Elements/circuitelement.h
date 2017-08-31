@@ -16,7 +16,7 @@ public:
 	int type() const { return CIRC_ELEMENT; }
 	void setPos(const QPointF &pos);
 	void rotateClockwise(bool clockwiseDirection=true);
-
+	virtual CircuitElement* clone()=0;
 private:
 	QVariant itemChange(GraphicsItemChange change,
 							const QVariant &value);
