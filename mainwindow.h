@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsObject>
+#include <QSettings>
 #include "sceneeditor.h"
 #include "gridscene.h"
 
@@ -26,6 +27,10 @@ private slots:
 private:
 	Ui::MainWindow *ui;
 	SceneEditor* editor;
+
+private:
+	void writeSettings();
+	void readSettings();
 
 };
 

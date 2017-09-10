@@ -4,6 +4,7 @@
 #include "pin.h"
 #include <QMenu>
 #include <QGraphicsItem>
+#include <QDebug>
 
 enum ElementType{DUMMY, CAPACITOR, INDUCTOR, RESISTOR, SPEAKER, ENDPOINT};
 class CircuitElement : public QGraphicsItem

@@ -27,5 +27,7 @@ void ClipBoard::copy(CircuitElement* circPtr){
 
 }
 CircuitElement* ClipBoard::paste(){
+	if(circPtr == nullptr)
+		return circPtr;
 	return circPtr->clone();
 }

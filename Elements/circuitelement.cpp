@@ -21,7 +21,15 @@ CircuitElement::CircuitElement(QGraphicsItem *parent, ElementType specialType):
 
 void CircuitElement::setPos(const QPointF &pos){
 
-	QPointF newPos(itemChange(ItemPositionChange, pos).toPointF());
+	QPointF newPos((pos));
+	qDebug()<<"origPos: "<<pos;
+	qDebug()<<"mapto Scene: "<<mapToScene(pos);
+	qDebug()<<"mapto Parent: "<<mapToParent(pos);
+	qDebug()<<"mapto Item: "<<mapToItem(this, pos);
+	qDebug()<<"mapfrom Scene: "<<mapFromScene(pos);
+	qDebug()<<"mapfrom Parent: "<<mapFromParent(pos);
+	qDebug()<<"mapfrom Item: "<<mapFromItem(this, pos);
+	//qDebug()<<"mapto Scene: "<<mapToScene(pos);
 	QGraphicsItem::setPos(newPos);
 	//QGraphicsItem::setPos(pos);
 }

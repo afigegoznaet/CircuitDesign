@@ -1,5 +1,4 @@
 #include "sceneeditor.h"
-#include <QDebug>
 
 SceneEditor::SceneEditor(QObject *parent) : QObject(parent){
 	conn = 0;
@@ -7,8 +6,8 @@ SceneEditor::SceneEditor(QObject *parent) : QObject(parent){
 	clipboard = ClipBoard::getInstance();
 }
 
-void SceneEditor::install(QGraphicsScene *s)
-{
+void SceneEditor::install(QGraphicsScene *s, QGraphicsView *view){
+	this->view=view;
 	s->installEventFilter(this);
 	scene = s;
 }
@@ -102,12 +101,17 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 
 void SceneEditor::createMenus(){
 	sceneContextMenu = new QMenu((QWidget*)this->parent());//parent is main windwo. Ugly hack
-	sceneContextMenu->addAction("Add &capacitor",[&](){insertElement(CAPACITOR);} , QString("C"));
-	sceneContextMenu->addAction("Add &inductor", [&](){insertElement(INDUCTOR);}, QString("I"));
-	sceneContextMenu->addAction("Add &resistor",[&](){insertElement(RESISTOR);}, QString("R"));
+	actions.push_back(sceneContextMenu->addAction("Add &capacitor",
+						[&](){insertElement(CAPACITOR);} , QString("C")));
+	actions.push_back(sceneContextMenu->addAction("Add &inductor",
+						[&](){insertElement(INDUCTOR);}, QString("I")));
+	actions.push_back(sceneContextMenu->addAction("Add &resistor",
+						[&](){insertElement(RESISTOR);}, QString("R")));
 	sceneContextMenu->addSeparator();
-	sceneContextMenu->addAction("Add &speaker", [&](){insertElement(SPEAKER);}, QString("S"));
-	sceneContextMenu->addAction("Add &endpoint", [&](){insertElement(ENDPOINT);}, QString("E"));
+	actions.push_back(sceneContextMenu->addAction("Add &speaker",
+						[&](){insertElement(SPEAKER);}, QString("S")));
+	actions.push_back(sceneContextMenu->addAction("Add &endpoint",
+						[&](){insertElement(ENDPOINT);}, QString("E")));
 	sceneContextMenu->addSeparator();
 	sceneContextMenu->addAction("Add active filter (N/A yet)");
 	sceneContextMenu->addAction("Add digital filter (N/A yet)");
@@ -115,39 +119,28 @@ void SceneEditor::createMenus(){
 	sceneContextMenu->addSeparator();
 	sceneContextMenu->addAction("Place text (N/A yet)");
 	sceneContextMenu->addSeparator();
-	auto act = sceneContextMenu->addAction("Cut");
-	act->setEnabled(false);
-	//connect(this, SIGNAL(clipboardContentsEnabled(bool)), act, SLOT(setEnabled(bool)));
-	act = sceneContextMenu->addAction("Copy");
-	act->setEnabled(false);
-	//connect(this, SIGNAL(clipboardContentsEnabled(bool)), act, SLOT(setEnabled(bool)));
-	act = sceneContextMenu->addAction("Paste", [&](){auto elem = clipboard->paste(); scene->addItem(elem); elem->setPos(QCursor::pos());});
-	act->setEnabled(false);
-	connect(this, SIGNAL(clipboardContentsEnabled(bool)), act, SLOT(setEnabled(bool)));
+	actions.push_back(sceneContextMenu->addAction("Cut",
+					[&](){cutToClipboard();},QKeySequence(tr("Ctrl+X"))));
+	actions.push_back(sceneContextMenu->addAction("Copy",
+					[&](){copyToClipboard();},QKeySequence(tr("Ctrl+C"))));
+	actions.push_back(sceneContextMenu->addAction("Paste",this,
+					&SceneEditor::pasteFromClipboard, QKeySequence(tr("Ctrl+V"))));
+	actions.push_back(sceneContextMenu->addAction("Delete selected",
+					[&](){elementDeleter();}, QKeySequence(tr("Del"))));
 	sceneContextMenu->addSeparator();
 	sceneContextMenu->addAction("Properties (N/A yet)");
-
+	((QWidget*)parent())->addActions(actions);
 }
 
 void SceneEditor::showMenu(CircuitElement* elem){
 	QMenu* itemContextMenu = new QMenu((QWidget*)this->parent());
 	itemContextMenu->addAction("Rotate element", [&](){elem->rotateClockwise();});
 	itemContextMenu->addSeparator();
-	itemContextMenu->addAction("Cut", [&](){clipboard->cut(elem); scene->removeItem(elem); emit clipboardContentsEnabled(true);});
-	itemContextMenu->addAction("Copy", [&](){clipboard->copy(elem);emit clipboardContentsEnabled(true);});
-	auto act = itemContextMenu->addAction("Paste");
-	act->setEnabled(false);
-	auto deleter = [&](){
-		if(EndPoint* endP = dynamic_cast<EndPoint*> (elem))
-			if(endP->isStartingPoint()){
-				(QMessageBox(QMessageBox::Information, "Error", "Can't delete starting endpoint")).exec();
-				return;
-			}
 
-		scene->removeItem(elem);
-		delete elem;
-	};
-	itemContextMenu->addAction("&Delete)", this, deleter, QString("D"));
+	itemContextMenu->addAction("Cut",[&](){cutToClipboard(elem);});
+	itemContextMenu->addAction("Copy",  [&](){ copyToClipboard(elem);});
+	itemContextMenu->addAction("Paste", this, &SceneEditor::pasteFromClipboard);
+	itemContextMenu->addAction("&Delete)", [&](){ elementDeleter(elem);});
 	itemContextMenu->addSeparator();
 	itemContextMenu->addAction("Edit proprties");
 	itemContextMenu->exec(QCursor::pos());
@@ -182,12 +175,10 @@ void SceneEditor::insertElement(ElementType type){
 	disposeSelectedItems();
 	scene->addItem(elem);
 	scene->selectedItems().append(elem);
-	auto location = QCursor::pos();
-
-	qDebug()<<"Elem rect: "<<elem->boundingRect();
-	elem->moveBy(location.x(), location.y());
-	elem->setPos(location);
-	qDebug()<<"Elem rect: "<<elem->boundingRect();
+	QPoint viewPoint = view->mapFromGlobal(QCursor::pos());
+	QPointF scenePoint = view->mapToScene(viewPoint);
+	elem->setPos(scenePoint);
+	elem->setPos(scenePoint);
 }
 
 void SceneEditor::disposeSelectedItems(){
@@ -195,4 +186,51 @@ void SceneEditor::disposeSelectedItems(){
 	foreach (auto &item, selections) {
 		item->setSelected(false);
 	}
+}
+
+void SceneEditor::copyToClipboard(CircuitElement *elem){
+	if(elem){
+		clipboard->copy(elem);
+		return;
+	}
+	if(scene->selectedItems().size())
+		clipboard->copy((CircuitElement*)scene->selectedItems().first());
+}
+void SceneEditor::cutToClipboard(CircuitElement *elem){
+	copyToClipboard(elem);
+	if(elem)
+		delete elem;
+	else if(scene->selectedItems().size())
+		delete scene->selectedItems().first();
+	disposeSelectedItems();
+}
+
+void SceneEditor::pasteFromClipboard(){
+	auto elem = clipboard->paste();
+	if(elem == nullptr)
+		return;
+	scene->addItem(elem);
+	QPoint viewPoint = view->mapFromGlobal(QCursor::pos());
+	QPointF scenePoint = view->mapToScene(viewPoint);
+	elem->setPos(scenePoint);
+	elem->setPos(scenePoint);
+}
+
+//too many "if"s here, gotta do something about it
+void SceneEditor::elementDeleter(CircuitElement *elem){
+	if(elem == nullptr){
+		if(scene->selectedItems().size())
+			elem = (CircuitElement*)scene->selectedItems().first();
+		else
+			return;
+	}
+	if(EndPoint* endP = dynamic_cast<EndPoint*> (elem))
+		if(endP->isStartingPoint()){
+			(QMessageBox(QMessageBox::Information,
+						 "Error", "Can't delete starting endpoint")).exec();
+			return;
+		}
+
+	scene->removeItem(elem);
+	delete elem;
 }
