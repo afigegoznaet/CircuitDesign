@@ -1,12 +1,16 @@
 #include "gridscene.h"
 
-GridScene::GridScene(QObject *parent) : QGraphicsScene(parent)
-{
+GridScene::GridScene(QObject *parent) : QGraphicsScene(parent){
 
+	QScreen *screen = QGuiApplication::primaryScreen();
+	QRect screenGeometry = screen->availableGeometry();
+	int height = screenGeometry.height();
+	int width = screenGeometry.width();
+
+	setSceneRect(0, 0, width - width/5, height - height/5);
 }
 
-void GridScene::drawBackground(QPainter *painter, const QRectF &rect)
-{
+void GridScene::drawBackground(QPainter *painter, const QRectF &rect){
 	QPen pen;
 	painter->setPen(pen);
 

@@ -21,9 +21,9 @@ CircuitElement::CircuitElement(QGraphicsItem *parent, ElementType specialType):
 
 void CircuitElement::setPos(const QPointF &pos){
 
-	//QPointF newPos(itemChange(ItemPositionChange, pos).toPointF());
-	//QGraphicsItem::setPos(newPos);
-	QGraphicsItem::setPos(pos);
+	QPointF newPos(itemChange(ItemPositionChange, pos).toPointF());
+	QGraphicsItem::setPos(newPos);
+	//QGraphicsItem::setPos(pos);
 }
 
 QRectF CircuitElement::boundingRect() const{

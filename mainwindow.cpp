@@ -11,10 +11,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	auto scene = new GridScene(this);
 
-	scene->setSceneRect(0, 0, 800, 600);
-	ui->graphicsView->setAlignment(Qt::AlignTop|Qt::AlignLeft);
-	ui->graphicsView->setScene(scene);
-	ui->graphicsView->setSceneRect(scene->sceneRect());
+	scrollArea->setAlignment(Qt::AlignTop|Qt::AlignLeft);
+	scrollArea->setScene(scene);
+	qDebug()<<scene->sceneRect();
+	scrollArea->setMaximumSize(scene->sceneRect().width()+4,
+							   scene->sceneRect().height()+4);
+	//ui->graphicsView->setSceneRect(scene->sceneRect());
 	editor = new SceneEditor(this);
 	editor->install(scene);
 
@@ -25,11 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	qDebug()<<"inductor";
 	auto object1 = new EndPoint();
 	auto object2 = new EndPoint();
-	ui->graphicsView->scene()->addItem(object1);
+	scrollArea->scene()->addItem(object1);
 
 	((QGraphicsItem*)object1)->setPos(QPointF(0,0));
 
-	ui->graphicsView->scene()->addItem(object2);
+	scrollArea->scene()->addItem(object2);
 	auto point = QPointF(0,50);
 	((QGraphicsItem*)object2)->setPos(point);
 	((QGraphicsItem*)object2)->setPos(point);

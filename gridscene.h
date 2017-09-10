@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include <QPainter>
+#include <QScreen>
+#include <QGuiApplication>
 
 class GridScene : public QGraphicsScene
 {
