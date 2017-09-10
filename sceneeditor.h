@@ -30,6 +30,7 @@ private:
 	void showMenu(CircuitElement*elem);
 	void createMenus();
 	void insertElement(ElementType type);
+	void disposeSelectedItems();
 
 private:
 	QGraphicsScene *scene;

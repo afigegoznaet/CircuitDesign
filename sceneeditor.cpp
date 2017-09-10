@@ -45,13 +45,10 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 						conn->updatePath();
 						return true;
 					}else if(item){
+						disposeSelectedItems();
 						item->setSelected(true);
-						item->setEnabled(true);
 					}else
-						foreach (auto &itemRef, scene->selectedItems()) {
-							itemRef->setSelected(false);
-							itemRef->setEnabled(false);
-						}
+						disposeSelectedItems();
 					break;
 				}
 				case Qt::RightButton:{
@@ -182,6 +179,20 @@ void SceneEditor::insertElement(ElementType type){
 	default:
 		break;
 	}
+	disposeSelectedItems();
 	scene->addItem(elem);
-	elem->setPos(QCursor::pos());
+	scene->selectedItems().append(elem);
+	auto location = QCursor::pos();
+
+	qDebug()<<"Elem rect: "<<elem->boundingRect();
+	elem->moveBy(location.x(), location.y());
+	elem->setPos(location);
+	qDebug()<<"Elem rect: "<<elem->boundingRect();
+}
+
+void SceneEditor::disposeSelectedItems(){
+	auto selections = scene->selectedItems();
+	foreach (auto &item, selections) {
+		item->setSelected(false);
+	}
 }

@@ -9,7 +9,7 @@ class EndPoint : public CircuitElement
 public:
 	bool isStartingPoint() const {return startPoint;}
 	EndPoint(QGraphicsItem *parent = 0);
-	EndPoint(const EndPoint&){}
+	EndPoint(const EndPoint&) : CircuitElement(){}
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR);
 	EndPoint* clone();
 };

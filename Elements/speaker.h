@@ -7,7 +7,7 @@ class Speaker : public CircuitElement
 {
 public:
 	Speaker(QGraphicsItem *parent = 0);
-	Speaker(const Speaker&){}
+	Speaker(const Speaker&) : CircuitElement(){}
 	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR);
 protected:
 	virtual Pin* addPort(bool inPin);

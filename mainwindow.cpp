@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	auto scene = new GridScene(this);
 
+	scene->setSceneRect(0, 0, 800, 600);
+	ui->graphicsView->setAlignment(Qt::AlignTop|Qt::AlignLeft);
 	ui->graphicsView->setScene(scene);
 	ui->graphicsView->setSceneRect(scene->sceneRect());
 	editor = new SceneEditor(this);

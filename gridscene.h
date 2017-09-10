@@ -15,7 +15,6 @@ public:
 
 private:
 	virtual void drawBackground(QPainter *painter, const QRectF &rect);
-
 signals:
 
 public slots:
