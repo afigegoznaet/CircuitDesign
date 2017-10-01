@@ -12,8 +12,7 @@ void SceneEditor::install(QGraphicsScene *s, QGraphicsView *view){
 	scene = s;
 }
 
-QGraphicsItem* SceneEditor::itemAt(const QPointF &pos)
-{
+QGraphicsItem* SceneEditor::itemAt(const QPointF &pos){
 	QList<QGraphicsItem*> items = scene->items(QRectF(pos - QPointF(1,1), QSize(3,3)));
 
 	foreach(QGraphicsItem *item, items)
@@ -22,8 +21,8 @@ QGraphicsItem* SceneEditor::itemAt(const QPointF &pos)
 	return 0;
 }
 
-bool SceneEditor::eventFilter(QObject *o, QEvent *e)
-{
+bool SceneEditor::eventFilter(QObject *o, QEvent *e){
+
 	QGraphicsSceneMouseEvent *me = (QGraphicsSceneMouseEvent*) e;
 
 	switch (e->type()){
@@ -36,7 +35,7 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 				case Qt::LeftButton:{
 					QGraphicsItem *item = itemAt(me->scenePos());
 					if (item && item->type() == PIN){
-						conn = new Wire(0);
+						conn = new Wire();
 						scene->addItem(conn);
 						conn->setPort1((Pin*) item);
 						conn->setPos1(item->scenePos());
@@ -60,7 +59,7 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 		}
 		case QEvent::GraphicsSceneMouseMove:{
 			if (conn){
-				qDebug()<<conn;
+				//qDebug()<<conn;
 				conn->setPos2(me->scenePos());
 				conn->updatePath();
 				return true;
@@ -72,7 +71,7 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 			if (me->button() == Qt::LeftButton){
 				QGraphicsItem *item = itemAt(me->scenePos());
 				if(!item)
-					break;
+					return false;
 				if (conn && item->type() == PIN){
 					Pin *pin1 = conn->pin1;
 					Pin *pin2 = (Pin*) item;
@@ -84,10 +83,8 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 						conn = 0;
 						return true;
 					}
-				}else{
+				}else
 					((CircuitElement*)item)->setPos(item->scenePos());
-					//item->setEnabled(false);
-				}
 
 				delete conn;
 				conn = 0;
@@ -96,6 +93,8 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e)
 			break;
 		}
 	}
+	qDebug()<<e->AcceptDropsChange;
+	qDebug()<<e->type();
 	return QObject::eventFilter(o, e);
 }
 
@@ -140,15 +139,15 @@ void SceneEditor::showMenu(CircuitElement* elem){
 	itemContextMenu->addAction("Cut",[&](){cutToClipboard(elem);});
 	itemContextMenu->addAction("Copy",  [&](){ copyToClipboard(elem);});
 	itemContextMenu->addAction("Paste", this, &SceneEditor::pasteFromClipboard);
-	itemContextMenu->addAction("&Delete)", [&](){ elementDeleter(elem);});
+	itemContextMenu->addAction("&Delete", [&](){ elementDeleter(elem);});
 	itemContextMenu->addSeparator();
 	itemContextMenu->addAction("Edit proprties");
 	itemContextMenu->exec(QCursor::pos());
 }
 
-void SceneEditor::contextMenuRequested(const QPoint &pos){
+void SceneEditor::contextMenuRequested(const QPoint &){
 	sceneContextMenu->exec(QCursor::pos());
-	qDebug()<<pos<<" "<<QCursor::pos();
+	//qDebug()<<pos<<" "<<QCursor::pos();
 }
 
 void SceneEditor::insertElement(ElementType type){
@@ -182,6 +181,7 @@ void SceneEditor::insertElement(ElementType type){
 }
 
 void SceneEditor::disposeSelectedItems(){
+	qDebug()<<"Dispose";
 	auto selections = scene->selectedItems();
 	foreach (auto &item, selections) {
 		item->setSelected(false);

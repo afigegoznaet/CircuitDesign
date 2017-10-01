@@ -1,10 +1,7 @@
 #include "inductor.h"
 
 Inductor::Inductor(QGraphicsItem *parent):
-	CircuitElement(parent)
-{
-
-}
+	CircuitElement((ElectricProps)V_I | H, parent){}
 
 Inductor* Inductor::clone(){
 	return new Inductor(*this);

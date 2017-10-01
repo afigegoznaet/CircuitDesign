@@ -1,9 +1,10 @@
 #include "circuitelement.h"
 #include <QDebug>
 
-CircuitElement::CircuitElement(QGraphicsItem *parent, ElementType specialType):
+CircuitElement::CircuitElement(ElectricProps props, QGraphicsItem *parent, ElementType specialType):
 	QGraphicsItem(parent){
 
+	this->props = props;
 	setFlags(QGraphicsItem::ItemIsSelectable |
 			QGraphicsItem::ItemIsMovable
 			 | QGraphicsItem::ItemSendsGeometryChanges
@@ -22,13 +23,13 @@ CircuitElement::CircuitElement(QGraphicsItem *parent, ElementType specialType):
 void CircuitElement::setPos(const QPointF &pos){
 
 	QPointF newPos((pos));
-	qDebug()<<"origPos: "<<pos;
-	qDebug()<<"mapto Scene: "<<mapToScene(pos);
-	qDebug()<<"mapto Parent: "<<mapToParent(pos);
-	qDebug()<<"mapto Item: "<<mapToItem(this, pos);
-	qDebug()<<"mapfrom Scene: "<<mapFromScene(pos);
-	qDebug()<<"mapfrom Parent: "<<mapFromParent(pos);
-	qDebug()<<"mapfrom Item: "<<mapFromItem(this, pos);
+	//qDebug()<<"origPos: "<<pos;
+	//qDebug()<<"mapto Scene: "<<mapToScene(pos);
+	//qDebug()<<"mapto Parent: "<<mapToParent(pos);
+	//qDebug()<<"mapto Item: "<<mapToItem(this, pos);
+	//qDebug()<<"mapfrom Scene: "<<mapFromScene(pos);
+	//qDebug()<<"mapfrom Parent: "<<mapFromParent(pos);
+	//qDebug()<<"mapfrom Item: "<<mapFromItem(this, pos);
 	//qDebug()<<"mapto Scene: "<<mapToScene(pos);
 	QGraphicsItem::setPos(newPos);
 	//QGraphicsItem::setPos(pos);
@@ -112,4 +113,28 @@ void CircuitElement::rotateClockwise(bool clockwiseDirection){
 		angle = rotation()-90;
 
 	setRotation(angle);
+}
+/*enum ElectricProp{V_I=1 applicable to all,
+					C = 2 capacitance,
+					H = 4 inductance,
+					Z = 8 impedance,
+					R = 16 resistance};*/
+void CircuitElement::edit(){
+
+	int i=1;
+	while (i!=R) {
+		switch (props & i) {
+		case V_I:
+			break;
+		case C:
+			break;
+		case H:
+			break;
+		case Z:
+			break;
+		case R:
+			break;
+		}
+		i<<=1;
+	}
 }

@@ -1,10 +1,7 @@
 #include "resistor.h"
 
 Resistor::Resistor(QGraphicsItem *parent):
-	CircuitElement(parent)
-{
-
-}
+	CircuitElement((ElectricProps)V_I | R | Z, parent){}
 
 Resistor* Resistor::clone(){
 	return new Resistor(*this);
@@ -22,7 +19,6 @@ void Resistor::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	source.setY( rect.top()+9 );
 	dest.setX(rect.right() - rect.width()/4);
 	dest.setY( rect.bottom()-9 );
-
 
 	painter->drawRect(QRectF(source, dest)); //draw resistor
 

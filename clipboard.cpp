@@ -14,7 +14,7 @@ ClipBoard *ClipBoard::getInstance(){
 }
 void ClipBoard::getRidOfInstance(){
 	delete singleton;
-	singleton == nullptr;
+	singleton = nullptr;
 }
 
 void ClipBoard::cut(CircuitElement* circPtr){

@@ -3,7 +3,7 @@
 bool EndPoint::start = true;
 
 EndPoint::EndPoint(QGraphicsItem *parent):
-	CircuitElement(parent, ENDPOINT), startPoint(start){
+	CircuitElement(V_I, parent, ENDPOINT), startPoint(start){
 	//end=true;//static, innitializes only once
 	if(start)
 		start=false;

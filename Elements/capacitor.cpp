@@ -1,7 +1,7 @@
 #include "capacitor.h"
 
 Capacitor::Capacitor(QGraphicsItem *parent):
-	CircuitElement(parent){
+	CircuitElement((ElectricProps)V_I | C, parent){
 }
 
 Capacitor* Capacitor::clone(){

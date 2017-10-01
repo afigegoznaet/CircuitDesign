@@ -7,10 +7,11 @@ class Speaker : public CircuitElement
 {
 public:
 	Speaker(QGraphicsItem *parent = 0);
-	Speaker(const Speaker&) : CircuitElement(){}
-	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = Q_NULLPTR);
+	Speaker(const Speaker&) : CircuitElement((ElectricProps)V_I | R){}
+	void paint(	QPainter *painter, const QStyleOptionGraphicsItem *option,
+				QWidget *widget = Q_NULLPTR) override;
 protected:
-	virtual Pin* addPort(bool inPin);
-	Speaker* clone();
+	Pin* addPort(bool inPin) override;
+	Speaker* clone() override;
 };
 #endif // SPEAKER_H

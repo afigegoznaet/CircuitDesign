@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	scrollArea->setAlignment(Qt::AlignTop|Qt::AlignLeft);
 	scrollArea->setScene(scene);
-	qDebug()<<scene->sceneRect();
+	//qDebug()<<scene->sceneRect();
 	scrollArea->setSceneRect(scene->sceneRect());
 	scrollArea->setMaximumSize(scene->sceneRect().width()+4,
 							   scene->sceneRect().height()+4);
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 			editor, SLOT(contextMenuRequested(const QPoint &)));
 	scrollArea->setTransformationAnchor(QGraphicsView::NoAnchor);
 
-	qDebug()<<"inductor";
+	//qDebug()<<"inductor";
 	auto object1 = new EndPoint();
 	auto object2 = new EndPoint();
 	scrollArea->scene()->addItem(object1);

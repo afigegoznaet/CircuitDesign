@@ -1,7 +1,7 @@
 #include "speaker.h"
 
 Speaker::Speaker(QGraphicsItem *parent):
-	CircuitElement(parent, SPEAKER)
+	CircuitElement((ElectricProps)V_I | R, parent, SPEAKER)
 {
 	addPort(false);
 	addPort(true);
@@ -51,7 +51,6 @@ void Speaker::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 Pin *Speaker::addPort(bool inPin){
 	Pin *port;
 	int y = 30 + boundingRect().y();
-
 	if (inPin){
 		port = new Pin(!inPin,this);
 		port->setPos(boundingRect().x()-port->boundingRect().width(), y);
@@ -59,7 +58,5 @@ Pin *Speaker::addPort(bool inPin){
 		port = new Pin(inPin,this);
 		port->setPos(boundingRect().x()-port->boundingRect().width(), y+20);
 	}
-
-
 	return port;
 }
