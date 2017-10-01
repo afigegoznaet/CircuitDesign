@@ -95,8 +95,8 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e){
 			break;
 		}
 	}
-	qDebug()<<e->AcceptDropsChange;
-	qDebug()<<e->type();
+	//qDebug()<<e->AcceptDropsChange;
+	//qDebug()<<e->type();
 	return QObject::eventFilter(o, e);
 }
 

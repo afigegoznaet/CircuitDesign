@@ -2,9 +2,9 @@
 #include "ui_settingsform.h"
 #include "Elements/circuitelement.h"
 
-class CustomWidgetItem : public QListWidgetItem{
+class CustomWidgetItem : public QWidget{
 public:
-	CustomWidgetItem(QListWidget* parent = Q_NULLPTR) : QListWidgetItem(parent){
+	CustomWidgetItem(QWidget* parent = Q_NULLPTR) : QWidget(parent){
 
 	}
 
@@ -49,31 +49,41 @@ SettingsForm::~SettingsForm(){
 }
 
 void SettingsForm::addItem(QString labelText, QString value){
-	auto item = new CustomWidgetItem(ui->listWidget);
-	auto listItem = new QWidget(this);
-	item->label = new QLabel(labelText, listItem);
-	item->edit = new QLineEdit(value, listItem);
+	auto itemWidget = new QListWidgetItem(ui->listWidget);
+
+	auto listItem = new CustomWidgetItem(this);
+	listItem->label = new QLabel(labelText, listItem);
+	listItem->edit = new QLineEdit(value, listItem);
 	auto layout = new QHBoxLayout(listItem);
-	layout->addWidget(item->label);
+	layout->addWidget(listItem->label);
 	layout->addStretch();
-	layout->addWidget(item->edit);
+	layout->addWidget(listItem->edit);
 	layout->setSizeConstraint(QLayout::SizeConstraint::SetFixedSize);
 	listItem->setLayout(layout);
-	item->setSizeHint(listItem->sizeHint());
-	ui->listWidget->addItem(item);
-	ui->listWidget->setItemWidget(item, listItem);
+	itemWidget->setSizeHint(listItem->sizeHint());
+	ui->listWidget->addItem(itemWidget);
+	ui->listWidget->setItemWidget(itemWidget, listItem);
+	qDebug()<<"item widget: "<<itemWidget;
+	qDebug()<<"List item: "<<listItem;
 }
 
 void SettingsForm::updateElement(){
+
 	int i=1, j=0;
 	auto lw = ui->listWidget;
-	while (i!=R) {
-		CustomWidgetItem* widgetItem = (CustomWidgetItem*)lw->itemWidget(lw->item(j++));
+	for(int i=0;i<lw->model()->rowCount(lw->rootIndex());i++){
+		auto widgetItem = lw->itemWidget(lw->item(i));
+		qDebug()<<lw->item(i);
+		qDebug()<<widgetItem;
+	}
+	while (i!=R && j<lw->model()->rowCount(lw->rootIndex())) {
+		CustomWidgetItem* listItem = (CustomWidgetItem* )lw->itemWidget(lw->item(j++));
+		qDebug()<<"List item: "<<listItem;
 		switch (elem->props & i) {
 		case V_I:
-			elem->voltage = widgetItem->edit->text().toDouble();
-			widgetItem = (CustomWidgetItem*)lw->itemWidget(lw->item(j++));
-			elem->current = widgetItem->edit->text().toDouble();
+			elem->voltage = listItem->edit->text().toDouble();
+			listItem = (CustomWidgetItem* )lw->itemWidget(lw->item(j++));
+			elem->current = listItem->edit->text().toDouble();
 			break;
 		case C:
 			break;
@@ -92,7 +102,7 @@ void SettingsForm::updateElement(){
 void SettingsForm::on_okButton_clicked(){
 	updateElement();
 	hide();
-	deleteLater();
+	//deleteLater();
 }
 
 void SettingsForm::on_cancelButton_clicked(){

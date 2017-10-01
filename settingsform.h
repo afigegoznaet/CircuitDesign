@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QLineEdit>
+#include <QItemDelegate>
 class CircuitElement;
 namespace Ui {
 class SettingsForm;
