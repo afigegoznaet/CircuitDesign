@@ -5,11 +5,12 @@
 #include <QMenu>
 #include <QGraphicsItem>
 #include <QDebug>
+#include <settingsform.h>
 
 enum ElementType{DUMMY, CAPACITOR, INDUCTOR, RESISTOR, SPEAKER, ENDPOINT};
 enum ElectricProp{V_I=1/*applicable to all*/,
 				   C=2/*capacitance*/,
-				   H=4/*inductance*/,
+				   L=4/*inductance*/,
 				   Z=8/*impedance*/,
 				   R=16/*resistance*/};
 Q_DECLARE_FLAGS(ElectricProps, ElectricProp)
@@ -34,12 +35,13 @@ protected:
 	int height = 40;
 //Electric params
 	ElectricProps props;
-	double voltage;
-	double current;
-	double capacitance;
-	double inductance;
-	double resistance;
-	double impedance;//not needed for end-points, needed for pretty much everything else
+	double voltage = 0;
+	double current = 0;
+	double capacitance = 0;
+	double inductance = 0;
+	double resistance = 0;
+	double impedance = 0;//not needed for end-points, needed for pretty much everything else
+friend class SettingsForm;
 };
 
 #endif // CIRCUITELEMENT_H

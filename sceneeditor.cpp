@@ -53,6 +53,8 @@ bool SceneEditor::eventFilter(QObject *o, QEvent *e){
 					QGraphicsItem *item = itemAt(me->scenePos());
 					if (item && item->type() == CIRC_ELEMENT)
 						showMenu((CircuitElement*)item);
+					else
+						contextMenuRequested(me->scenePos().toPoint());
 					break;
 				}
 			}
@@ -141,7 +143,7 @@ void SceneEditor::showMenu(CircuitElement* elem){
 	itemContextMenu->addAction("Paste", this, &SceneEditor::pasteFromClipboard);
 	itemContextMenu->addAction("&Delete", [&](){ elementDeleter(elem);});
 	itemContextMenu->addSeparator();
-	itemContextMenu->addAction("Edit proprties");
+	itemContextMenu->addAction("&Edit proprties", [&](){ elem->edit();});
 	itemContextMenu->exec(QCursor::pos());
 }
 

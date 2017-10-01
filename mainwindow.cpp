@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	editor = new SceneEditor(this);
 	editor->install(scene, scrollArea);
 
-	connect(scrollArea, SIGNAL(customContextMenuRequested(const QPoint &)),
-			editor, SLOT(contextMenuRequested(const QPoint &)));
+	//connect(scrollArea, SIGNAL(customContextMenuRequested(const QPoint &)),
+			//editor, SLOT(contextMenuRequested(const QPoint &)));
 	scrollArea->setTransformationAnchor(QGraphicsView::NoAnchor);
 
 	//qDebug()<<"inductor";

@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     Elements/resistor.cpp \
     Elements/speaker.cpp \
     Elements/wire.cpp \
-    clipboard.cpp
+    clipboard.cpp \
+    settingsform.cpp
 
 HEADERS  += mainwindow.h \
     gridscene.h \
@@ -49,6 +50,8 @@ HEADERS  += mainwindow.h \
     Elements/resistor.h \
     Elements/speaker.h \
     Elements/wire.h \
-    clipboard.h
+    clipboard.h \
+    settingsform.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    settingsform.ui

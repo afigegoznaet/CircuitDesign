@@ -120,21 +120,6 @@ void CircuitElement::rotateClockwise(bool clockwiseDirection){
 					Z = 8 impedance,
 					R = 16 resistance};*/
 void CircuitElement::edit(){
-
-	int i=1;
-	while (i!=R) {
-		switch (props & i) {
-		case V_I:
-			break;
-		case C:
-			break;
-		case H:
-			break;
-		case Z:
-			break;
-		case R:
-			break;
-		}
-		i<<=1;
-	}
+	auto settings = new SettingsForm(this);
+	settings->show();
 }
