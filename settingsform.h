@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QItemDelegate>
+#include <QtConcurrent/QtConcurrent>
 class CircuitElement;
 namespace Ui {
 class SettingsForm;

@@ -107,4 +107,5 @@ void SettingsForm::on_okButton_clicked(){
 
 void SettingsForm::on_cancelButton_clicked(){
 	hide();
+	QtConcurrent::run([&](){delete this;});
 }
